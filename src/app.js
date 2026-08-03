@@ -19,4 +19,14 @@ app.get('/', (req, res) => {
     });
 });
 
+// 404 Not Found handler
+app.use((req, res, next) => {
+    const error = new (require('./utils/ApiError'))(404, 'Route not found');
+    next(error);
+});
+
+// Global Error Handler Middleware
+const errorHandler = require('./core/middlewares/error.middleware');
+app.use(errorHandler);
+
 module.exports = app;

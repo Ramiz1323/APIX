@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 const User = require("../users/user.model.js");
 const ApiError = require("../../utils/ApiError.js");
 
-
 const generateToken = (id, role) => {
     if (!process.env.JWT_SECRET) {
         throw new Error("JWT_SECRET is not defined");
@@ -20,18 +19,7 @@ async function registerUser(userData) {
         throw new ApiError(400, "User already exists");
     }
 
-    let user;
-    let attempts = 0;
-    const maxAttempts = 5;
-
-    while (attempts < maxAttempts) {
-        try {
-            user = await User.create({ name, email, password, role, avatar });
-            break;
-        } catch (error) {
-            throw error;
-        }
-    }
+    const user = await User.create({ name, email, password, role, avatar });
 
     return {
         _id: user._id,
@@ -41,13 +29,13 @@ async function registerUser(userData) {
         avatar: user.avatar,
         token: generateToken(user._id, user.role),
     };
-};
+}
 
 async function loginUser(email, password) {
     const user = await User.findOne({ email }).select('+password');
 
     if (!user || !(await user.matchPassword(password))) {
-        throw new ApiError('Invalid email or password', 401);
+        throw new ApiError(401, 'Invalid email or password');
     }
 
     return {
@@ -60,7 +48,18 @@ async function loginUser(email, password) {
     };
 }
 
+async function getCurrentUser(userId) {
+    const user = await User.findById(userId).select("-password");
+
+    if (!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    return user;
+}
+
 module.exports = {
     registerUser,
     loginUser,
+    getCurrentUser,
 };

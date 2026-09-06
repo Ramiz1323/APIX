@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const authRoutes = require('./modules/auth/auth.routes.js');
+const userRoutes = require('./modules/users/user.routes.js');
 
 const app = express();
 
@@ -15,8 +16,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(morgan('dev'));
 
-//Routes 
+// Routes
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/users", userRoutes);
 
 // Health Check Route
 app.get('/', (req, res) => {

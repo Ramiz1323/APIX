@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const authRoutes = require('./modules/auth/auth.routes.js');
 const userRoutes = require('./modules/users/user.routes.js');
+const productRoutes = require('./modules/products/product.routes.js');
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(morgan('dev'));
 // Routes
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/products", productRoutes);
 
 // Health Check Route
 app.get('/', (req, res) => {

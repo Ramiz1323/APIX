@@ -3,14 +3,14 @@ const { z } = require('zod');
 const orderItemSchema = z.object({
     product: z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid product ID'),
     quantity: z.number().int().min(1, 'Quantity must be at least 1'),
-    price: z.number().min(0, 'Price cannot be negative'),
+    price: z.number().min(0, 'Price cannot be negative').optional(),
 });
 
 const createOrderSchema = z.object({
     body: z.object({
-        customer: z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid customer ID'),
+        customer: z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid customer ID').optional(),
         orderItems: z.array(orderItemSchema).min(1, 'Order must contain at least one item'),
-        totalAmount: z.number().min(0, 'Total amount cannot be negative'),
+        totalAmount: z.number().min(0, 'Total amount cannot be negative').optional(),
         shippingAddress: z.string().min(5, 'Shipping address is too short'),
     }),
 });
@@ -24,7 +24,14 @@ const updateOrderStatusSchema = z.object({
     }),
 });
 
+const orderIdParamSchema = z.object({
+    params: z.object({
+        id: z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid order ID'),
+    }),
+});
+
 module.exports = {
     createOrderSchema,
     updateOrderStatusSchema,
+    orderIdParamSchema,
 };

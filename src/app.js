@@ -11,6 +11,7 @@ const orderRoutes = require('./modules/orders/order.routes.js');
 const postRoutes = require('./modules/posts/post.routes.js');
 const commentRoutes = require('./modules/comments/comment.routes.js');
 const uploadRoutes = require('./modules/uploads/upload.routes.js');
+const statsRoutes = require('./modules/stats/stats.routes.js');
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use("/api/v1/orders", orderRoutes);
 app.use("/api/v1/posts", postRoutes);
 app.use("/api/v1/comments", commentRoutes);
 app.use("/api/v1/upload", uploadRoutes);
+app.use("/api/v1/stats", statsRoutes);
 
 // Health Check Route
 app.get('/', (req, res) => {

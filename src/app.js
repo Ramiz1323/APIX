@@ -7,6 +7,7 @@ const authRoutes = require('./modules/auth/auth.routes.js');
 const userRoutes = require('./modules/users/user.routes.js');
 const productRoutes = require('./modules/products/product.routes.js');
 const categoryRoutes = require('./modules/categories/category.routes.js');
+const orderRoutes = require('./modules/orders/order.routes.js');
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/categories", categoryRoutes);
+app.use("/api/v1/orders", orderRoutes);
 
 // Health Check Route
 app.get('/', (req, res) => {
